@@ -101,6 +101,26 @@
         }
 
         /**
+         * This function decodes the token if not expired.
+         *
+         * @param string $token
+         * @return object|boolean
+         */
+        public function decode ($token) {
+            //  Verify the passed parameters.
+            if (!is_string($token)) { return false; }
+            //  Get the token info to check it has not expired and unlock with key.
+            $info = parent::select($token);
+            $is_expired = ($info->unix + self::$config->valid_for) > getTime() ? false : true;
+            $data = null;
+            //  Decode the token if not expired.
+            try { $data = !$is_expired ? JWT::decode($token, $info->salt) : false; }
+            catch (Exception $e) { return false; }
+            //  Return the token if decoded.
+            return $data;
+        }
+
+        /**
          * Unregisters the given token from the database.
          *
          * @param string $token
