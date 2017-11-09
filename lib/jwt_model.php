@@ -13,6 +13,19 @@
 
     require_once JWT_BASE.'/mysql.php';
 
+    /**
+     * The model class for handling jwt entries in the mysql database.
+     * 
+     * @uses Mysql Alexadner Ljungberg Perme
+     * 
+     * @category Verification
+     * @package jwt_store
+     * @subpackage jwt_model
+     * @version 1.0.0
+     * 
+     * @author Alexander Ljungberg Perme <alex.perme@gmail.com>
+     * @license MIT
+     */
     class TokenModel extends Mysql {
 
         private static $query;
@@ -37,7 +50,25 @@
          * @return boolean
          */
         protected function insert ($id, $token, $salt) {
-
+            //  Confirm valid arguments.
+            if (!is_int($id) || !is_string($token) || !is_string($salt)) { return false; }
+            //  Connect to the database.
+            $conn = parent::connect();
+            if (!$conn) { return false; }
+            //  Run the query.
+            if ($query = $conn->prepare(self::$query->insert)) {
+                $query->bind_param('iss', $id, $token, $salt);
+                $query->execute();
+                $was_successful = $query->affected_rows > 0 ? true : false;
+                $query->close();
+                $conn->close();
+                //  Return the query result.
+                return $was_successful;
+            }
+            //  Close the connection if a cuery could not be prepared.
+            $conn->close();
+            //  Return result as false.
+            return false;
         }
 
         /**
@@ -48,7 +79,30 @@
          * @return object
          */
         protected function select ($token) {
-
+            //  Confirm valid argument passed.
+            if (!is_string($token)) { return false; }
+            //  Connect to the database.
+            $conn = parent::connect();
+            if (!$conn) { return false; }
+            //  Run the query.
+            if ($query = $conn->prepare(self::$query->select)) {
+                $query->bind_param('s', $token);
+                $query->execute();
+                //  Get the result.
+                $query->bind_result($id, $salt, $unix);
+                $query->fetch();
+                $data = (object)[
+                    'id' => $id,
+                    'salt' => $salt,
+                    'unix' => $unix
+                ];
+                //  Return the result.
+                return $data ? $data : false;
+            }
+            //  Close the connection if a cuery could not be prepared.
+            $conn->close();
+            //  Return result as false.
+            return false;
         }
 
         /**
@@ -61,7 +115,25 @@
          * @return boolean
          */
         protected function update ($id, $token, $salt) {
-
+            //  Confirm the parameters are valid.
+            if (!is_int($id) || !is_string($token) || !is_string($salt)) { return false; }
+            //  Connect to the database.
+            $conn = parent::connect();
+            if (!$conn) { return false; }
+            //  Run the query.
+            if ($query = $conn->prepare(self::$query->update)) {
+                $query->bind_param('iss', $id, $token, $salt);
+                $query->execute();
+                $was_successful = $query->affected_rows > 0 ? true : false;
+                $query->close();
+                $conn->close();
+                //  Return the query result.
+                return $was_successful;
+            }
+            //  Close the connection if a cuery could not be prepared.
+            $conn->close();
+            //  Return result as false.
+            return false;
         }
 
         /**
@@ -72,7 +144,22 @@
          * @return boolean
          */
         protected function delete ($id) {
-            
+            if (!is_int($id)) { return false; }
+            $conn = parent::connect();
+            if (!$conn) { return false; }
+            if ($query = $conn->prepare(self::$query->delete)) {
+                $query->bind_param('i', $id);
+                $query->execute();
+                $was_successful = $query->affected_rows > 0 ? true : false;
+                $query->close();
+                $conn->close();
+                //  Return the query result.
+                return $was_successful;
+            }
+            //  Close the connection if a cuery could not be prepared.
+            $conn->close();
+            //  Return result as false.
+            return false;
         }
 
     }
