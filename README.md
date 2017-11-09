@@ -16,7 +16,7 @@ The basic usage requires you to instance the class;
 
 To then create a new token do something like this;
 
-> ```$to_encode = (object) ['foo' => 'bar'];```
+> ```$to_encode = (object) ['foo' => 'bar'];```<br>
 > ```$token_string = jwt_store->create(437, $to_encode);```
 
 This will result in a new token string that can be verified at a later point.
