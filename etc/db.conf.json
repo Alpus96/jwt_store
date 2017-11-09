@@ -1,0 +1,9 @@
+{
+    "credentials": {
+        "host": "localhost",
+        "user": "jwt_store",
+        "pass": "1234",
+        "dbase": "jwt_store"
+    },
+    "charset": "utf8"
+}
