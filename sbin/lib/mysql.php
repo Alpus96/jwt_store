@@ -9,6 +9,7 @@
      * @subpackage     mysql_database
      * @version        2.0.0
      * 
+     * @author Alexander Ljungberg Perme <alex.perme@gmail.com>
      * @copyright 2017 Alexander Ljungberg Perme
      * @license MIT
      */
@@ -23,7 +24,7 @@
          */
         protected function __construct () {
             //  Get the database configuretion.
-            $raw = file_get_contents(JWT_BASE.'/etc/db.conf.json');
+            $raw = file_get_contents(JWT_BASE.'/sbin/etc/db.conf.json');
             $config = null;
             try { $config = json_decode($raw); }
             catch (Exception $e) { 

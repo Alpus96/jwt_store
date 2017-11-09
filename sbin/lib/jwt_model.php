@@ -2,21 +2,21 @@
 
     /**
      * Table sql;
-     * 
      *  CREATE TABLE TOKEN_STORE(
      *      'ID' INT NOT NULL AUTO_INCREMENT,
      *      'TOKEN' TEXT NOT NULL,
      *      'SALT' VARCHAR(3072) NOT NULL
-     *      'UNIX' TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+     *      'UNIX' TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
      *  );
      */
 
-    require_once JWT_BASE.'/mysql.php';
+    /**
+     * @uses Mysql Alexadner Ljungberg Perme
+     */
+    require_once 'mysql.php';
 
     /**
      * The model class for handling jwt entries in the mysql database.
-     * 
-     * @uses Mysql Alexadner Ljungberg Perme
      * 
      * @category Verification
      * @package jwt_store
@@ -24,6 +24,7 @@
      * @version 1.0.0
      * 
      * @author Alexander Ljungberg Perme <alex.perme@gmail.com>
+     * @copyright 2017 Alexander Ljungberg Perme
      * @license MIT
      */
     class TokenModel extends Mysql {
