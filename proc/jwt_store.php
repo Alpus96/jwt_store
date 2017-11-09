@@ -9,8 +9,8 @@
      * @uses JWT            Neuman Vong
      * @uses TokenModel     Alexander Ljungberg Perme
      */
-    require_once JWT_BASE.'/sbin/lib/jwt/JWT.php';
-    require_once JWT_BASE.'/sbin/lib/jwt_model.php';
+    require_once JWT_BASE.'/lib/jwt/JWT.php';
+    require_once JWT_BASE.'/lib/jwt_model.php';
 
     /**
      * Handles registering, verifying and removing jwt strings.
@@ -32,7 +32,7 @@
          */
         public function __construct () {
             //  Read the config settings from json file.
-            $raw = file_get_contents(JWT_BASE.'/sbin/etc/jwt.conf.json');
+            $raw = file_get_contents(JWT_BASE.'/etc/jwt.conf.json');
             $conf_obj = null;
             try { $conf_obj = json_decode($raw); }
             catch (Exception $e) { $conf_obj = false; }

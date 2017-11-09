@@ -24,7 +24,7 @@
          */
         protected function __construct () {
             //  Get the database configuretion.
-            $raw = file_get_contents(JWT_BASE.'/sbin/etc/db.conf.json');
+            $raw = file_get_contents(JWT_BASE.'/etc/db.conf.json');
             $config = null;
             try { $config = json_decode($raw); }
             catch (Exception $e) { 
