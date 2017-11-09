@@ -60,7 +60,7 @@
             if ($query = $conn->prepare(self::$query->insert)) {
                 $query->bind_param('iss', $id, $token, $salt);
                 $query->execute();
-                $was_successful = $query->affected_rows > 0 ? true : false;
+                $was_successful = $query->$affected_rows > 0 ? true : false;
                 $query->close();
                 $conn->close();
                 //  Return the query result.
@@ -125,7 +125,7 @@
             if ($query = $conn->prepare(self::$query->update)) {
                 $query->bind_param('iss', $id, $token, $salt);
                 $query->execute();
-                $was_successful = $query->affected_rows > 0 ? true : false;
+                $was_successful = $query->$affected_rows > 0 ? true : false;
                 $query->close();
                 $conn->close();
                 //  Return the query result.
@@ -151,7 +151,7 @@
             if ($query = $conn->prepare(self::$query->delete)) {
                 $query->bind_param('i', $id);
                 $query->execute();
-                $was_successful = $query->affected_rows > 0 ? true : false;
+                $was_successful = $query->$affected_rows > 0 ? true : false;
                 $query->close();
                 $conn->close();
                 //  Return the query result.
