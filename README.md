@@ -4,7 +4,7 @@ This plugin is based upon another plugin (jwt), and adds store capabilities.
 
 ## Requiers
 
-PHP version X.Y (or newer) and a mysql database, with table 'TOKEN_STORE' specified in the 'jwt_model.php' file.
+PHP version 5.3 (or newer) and a mysql database, with table 'TOKEN_STORE' specified in the 'jwt_model.php' file.
 
 ## Usage
 
