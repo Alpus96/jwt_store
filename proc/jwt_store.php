@@ -55,18 +55,17 @@
         /**
          * Creates a new jwt and registers it in the database.
          *
-         * @param integer $id
          * @param object $data
          * 
          * @return string|boolean
          */
-        public function create ($id, $data) {
+        public function create ($data) {
             //  Confirm valid parameters.
-            if (!is_int($id) || !is_object($data)) { return false; }
+            if (!is_object($data)) { return false; }
             //  Create the jwt and save it.
             $salt = self::genSalt();
             $token = $salt ? JWT::encode($data, $salt) : false;
-            $is_saved = $token ? parent::insert($id, $token, $salt) : false;
+            $is_saved = $token ? parent::insert($token, $salt) : false;
             //  Return result.
             return !$is_saved ? $is_saved : $token;
         }

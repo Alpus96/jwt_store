@@ -34,7 +34,7 @@
         function __construct () {
             parent::__construct();
             self::$query = (object)[
-                'insert' => 'INSERT INTO TOKEN_STORE SET ID = ?, TOKEN = ?, SALT = ?',
+                'insert' => 'INSERT INTO TOKEN_STORE SET TOKEN = ?, SALT = ?',
                 'select' => 'SELECT ID, SALT, UNIX FROM TOKEN_STORE WHERE TOKEN = ?',
                 'update' => 'UPDATE TOKEN_STORE SET TOKEN = ?, SALT = ? WHERE ID = ?',
                 'delete' => 'DELETE * FROM TOKEN_STORE WHERE ID = ?'
@@ -50,15 +50,15 @@
          * 
          * @return boolean
          */
-        protected function insert ($id, $token, $salt) {
+        protected function insert ($token, $salt) {
             //  Confirm valid arguments.
-            if (!is_int($id) || !is_string($token) || !is_string($salt)) { return false; }
+            if (!is_string($token) || !is_string($salt)) { return false; }
             //  Connect to the database.
             $conn = parent::connect();
             if (!$conn) { return false; }
             //  Run the query.
             if ($query = $conn->prepare(self::$query->insert)) {
-                $query->bind_param('iss', $id, $token, $salt);
+                $query->bind_param('ss', $token, $salt);
                 $query->execute();
                 $was_successful = $query->$affected_rows > 0 ? true : false;
                 $query->close();
@@ -90,6 +90,9 @@
                 $query->bind_param('s', $token);
                 $query->execute();
                 //  Get the result.
+                /**
+                 * @todo confirm there is a reslut, return false if not.
+                 */
                 $query->bind_result($id, $salt, $unix);
                 $query->fetch();
                 $data = (object)[
