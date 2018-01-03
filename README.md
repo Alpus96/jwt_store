@@ -1,10 +1,10 @@
 # jwt_store
 
-This plugin is based upon another plugin (jwt), and adds store capabilities.
+This plugin encodes and decodes JSON web tokens and verifies them by comparing to a database store.
 
 ## Requiers
 
-PHP version 5.3 (or newer) and a mysql database, with table 'TOKEN_STORE' specified in the 'jwt_model.php' file.
+PHP version 5.3 (or newer) and a MySQL database, with tables specified in the 'jwt_model.php' file.
 
 ## Usage
 
@@ -14,29 +14,30 @@ The basic usage requires you to instance the class;
 
 <br>
 
-To then create a new token do something like this;
+To create a new token do like this;
 
-> ```$to_encode = (object) ['foo' => 'bar'];```<br>
-> ```$token_string = jwt_store->create(437, $to_encode);```
+> ```$id_for_token_in_store = 437;```<br>
+> ```$obj_to_encode = (object) ['foo' => 'bar'];```<br>
+> ```$token_string = jwt_store->create($id_for_token_in_store, $obj_to_encode); // String```
 
-This will result in a new token string that can be verified at a later point.
+This will result in a new token string that has been saved in the store and can be verified at a later point.
 
 <br>
 
-To verify a token string use the verify function;
+To verify a token string, and optionaly update it, use the verify function;
 
-> ```$valid = $jwt_store->verify($token_string[, $new_object]);```
+> ```$valid = $jwt_store->verify($token_string[, $new_object]); // Boolean```
 
-This will result in the token being re-encoded from the previous data, or new data, if valid.
+This will result in the token being re-encoded from the previous data, or the new data, if the token string is valid.
 
 <br>
 
 To just decode the token, without re-encoding or updating the database, use the decode function;
 
-> ```$data = $jwt_store->decode($token_string);```
+> ```$data = $jwt_store->decode($token_string); // Object```
 
 <br>
 
-When the token is no longer valid use the destroy function to delete it from the store;
+When the token is no longer valid or in use remove it from the store with the destroy function;
 
-> ```$removed = $jwt_store->destroy($token_string);```
+> ```$removed = $jwt_store->destroy($token_string); // Boolean```
